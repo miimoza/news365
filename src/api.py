@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 from datetime import datetime
+import unidecode
 
 def getNews(region, departement = "", city = ""):
     request = "https://faitsdivers365.fr/" + region + "/" + departement + "/" + city + "/"
@@ -23,7 +24,7 @@ def getToday(region, departement = "", city = ""):
     d0 = datetime.strptime(dates_bs[0].text, '%H:%M')
     while (i < len(posts_bs) and datetime.strptime(dates_bs[i].text, '%H:%M') <= d0):
         dates.append(dates_bs[i].text)
-        posts.append(posts_bs[i]['title'])
+        posts.append(unidecode.unidecode(posts_bs[i]['title']).lower())
         i+=1
 
     return (dates, posts)
@@ -33,6 +34,13 @@ def occ_update(occ_list, post):
         if word in post:
             occ_list[word] += 1
     return occ_list
+
+def occ_dump(occ_list, name):
+    print(name + ":" + str(sum(occ_list.values())), "(", end='')
+    for word, occ in occ_list.items():
+        print(word + ":" + str(occ), end='/')
+    print(')')
+
 
 def idf():
         district_92="boulogne-billancourt", "nanterre","colombes", \
@@ -68,11 +76,16 @@ def idf():
             print('*', departement[0], departement[1])
             for district in districts:
                 print('     -->', district)
-                emeute = {"emeute":0, "feu":0, "tension":0, "violence":0, "petards":0}
-                covid = {"covid19":0, "corona":0, "virus":0, "hydroalcooliques":0, "masques":0}
+                emeute = {"emeute":0, "interpellation":0, "CRS":0, "tension":0, "violence":0, "police":0}
+                covid = {"covid19":0, "coronavirus":0, "hydroalcoolique":0, "masque":0}
                 autres = {"noyade":0, "meutre":0, "incendie":0}
-                for date, post in getToday("ile-de-france", departement[0], district):
+                dates, posts = getToday("ile-de-france", departement[0], district);
+                for date, post in zip(dates, posts):
                     emeute = occ_update(emeute, post)
                     covid = occ_update(covid, post)
                     autres = occ_update(autres, post)
-                print(emeute, covid, autres);
+                occ_dump(emeute, "emeute");
+                occ_dump(covid, "covid");
+                occ_dump(autres, "autres");
+
+#idf()
