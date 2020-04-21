@@ -22,12 +22,18 @@ def world_cloud(str):
         "en", "dans", "pour", "par", "à",
         "est", "a", "fait"
     ]
-    for e in blacklist:
-        str = str.replace(e.capitalize(), "")
 
     str = str.replace("-", "_")
 
-    wordcloud = WordCloud().generate(str)
-    plt.imshow(wordcloud, interpolation='bilinear')
+    wordcloud = WordCloud(
+        width=1920,
+        height=1080,
+        stopwords=blacklist,
+        max_words=500,
+        background_color="white",
+        colormap="Dark2"
+    )
+    wordcloud = wordcloud.generate(str)
+    plt.imshow(wordcloud, interpolation='bilinear', aspect='auto')
     plt.axis("off")
     plt.show()
