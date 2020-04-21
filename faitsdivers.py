@@ -2,41 +2,37 @@ import requests
 from bs4 import BeautifulSoup
 from datetime import datetime
 
-def getNews(region, departement = "", city = "", page=1):
-    if page > 1:
-        request = "https://faitsdivers365.fr/" + region + "/" + departement +\
-        "/" + city + "/page/" + str(page) + "/"
-    else:
-        request = "https://faitsdivers365.fr/" + region + "/" + departement + "/" + city + "/"
+def getNews(region, departement = "", city = ""):
+    request = "https://faitsdivers365.fr/" + region + "/" + departement + "/" + city + "/"
 
     html_doc = requests.get(request)
     soup = BeautifulSoup(html_doc.text, "html.parser")
 
-    posts = soup.find_all('a', {'class': 'mh-thumb-icon'})
     dates = soup.find_all('span', {'class': 'mh-meta-date updated'})
+    posts = soup.find_all('a', {'class': 'mh-thumb-icon'})
 
-    return {"posts":posts, "dates":dates};
-
+    return {"dates":dates, "posts":posts};
 
 
 def getToday(region, departement = "", city = ""):
     res = getNews(region, departement, city)
-    posts, dates = res["posts"], res["dates"]
+    posts_bs, dates_bs = res["posts"], res["dates"]
 
-    d0 = datetime.strptime(dates[0].text, '%H:%M')
-    print(d0)
-    print("="*20 + "[ NEWS:" + (region + ", " + departement + ", " + city).center(50) +"]" + "="*20)
-
-    page = 1;
+    posts, dates = [], []
     i = 0;
-    while (datetime.strptime(dates[i].text, '%H:%M') <= d0 and i < len(posts)):
-        print('[ ' + dates[i].text.ljust(5) + ' ] '+  posts[i]['title'])
+    d0 = datetime.strptime(dates_bs[0].text, '%H:%M')
+    while (i < len(posts_bs) and datetime.strptime(dates_bs[i].text, '%H:%M') <= d0):
+        dates.append(dates_bs[i].text)
+        posts.append(posts_bs[i]['title'])
         i+=1
-        if (i >= len(posts)):
-            page += 1
-            res = getNews(region, departement, city, page)
-            posts, dates = res["posts"], res["dates"]
-            i = 0
+
+    return zip(dates, posts)
+
+def occ_update(occ_list, post):
+    for word, occ in occ_list.items():
+        if word in post:
+            occ_list[word] += 1
+    return occ_list
 
 def idf():
         region="ile-de-france"
@@ -74,15 +70,24 @@ def idf():
               ("seine-et-marne",77):district_77, ("yvelines", 78):district_78,\
               ("essonne",91):district_91, ("val-doise",95):district_95}
 
+
+
+
         for departement, districts in idf.items():
             print('*', departement[0], departement[1])
             for district in districts:
                 print('     -->', district)
-                res = getNews("ile-de-france", departement[0], district)
-                for i in range(0, 1):
-                    print('[ ' + res["dates"][i].text.ljust(5) + ' ] '+  res["posts"][i]['title'])
+                emeute = {"emeute":0, "feu":0, "tension":0, "violence":0, "petards":0}
+                covid = {"covid19":0, "corona":0, "virus":0, "hydroalcooliques":0, "masques":0}
+                autres = {"noyade":0, "meutre":0, "incendie":0}
+                for date, post in getToday("ile-de-france", departement[0], district):
+                    emeute = occ_update(emeute, post)
+                    covid = occ_update(covid, post)
+                    autres = occ_update(autres, post)
+                print(emeute, covid, autres);
 
+                    #print('[ ' + date.ljust(5) + ' ] '+  post)
 
-
-getToday("ile-de-france");
-#idf()
+idf()
+getToday("ile-de-france","val-de-marne")
+getToday("ile-de-france")
