@@ -26,7 +26,7 @@ def getToday(region, departement = "", city = ""):
         posts.append(posts_bs[i]['title'])
         i+=1
 
-    return zip(dates, posts)
+    return (dates, posts)
 
 def occ_update(occ_list, post):
     for word, occ in occ_list.items():
@@ -35,13 +35,6 @@ def occ_update(occ_list, post):
     return occ_list
 
 def idf():
-        region="ile-de-france"
-        city=""
-
-        departements="paris", "hauts-de-seine", "val-de-marne", \
-                     "seine-saint-denis", "essone", "seine-et-marne", \
-                     "yvelines","val-doise"
-
         district_92="boulogne-billancourt", "nanterre","colombes", \
                     "asnieres-sur-seine", "rueil-malmaison", "courbevoie"
 
@@ -71,8 +64,6 @@ def idf():
               ("essonne",91):district_91, ("val-doise",95):district_95}
 
 
-
-
         for departement, districts in idf.items():
             print('*', departement[0], departement[1])
             for district in districts:
@@ -85,9 +76,3 @@ def idf():
                     covid = occ_update(covid, post)
                     autres = occ_update(autres, post)
                 print(emeute, covid, autres);
-
-                    #print('[ ' + date.ljust(5) + ' ] '+  post)
-
-idf()
-getToday("ile-de-france","val-de-marne")
-getToday("ile-de-france")
