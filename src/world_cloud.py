@@ -1,3 +1,4 @@
+from stopwords import *
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 
@@ -14,27 +15,14 @@ def world_cloud(str):
     str[:] = [word.capitalize() for word in str]
     str = " ".join(str)
 
-    blacklist = [
-        "il", "elle", "on",
-        "le",  "la", "un", "une", "du", "de", "les", "des",
-        "ce", "cet", "cette", "ces", "mais", "ou", "et", "donc",
-        "que", "quoi", "qui", "où",
-        "en", "dans", "pour", "par", "à",
-        "est", "a", "fait",
-        "si", "dont", "sont", "aussi", "chaque", "sa", "est-il",
-        "ni", "ans", "pris", "falloir", "être", "autre", "autres",
-        "l'un", "l'une", "veux", "veut", "même"
-    ]
-
-    str = str.replace("-", "_")
-
     wordcloud = WordCloud(
         width=1920,
         height=1080,
-        stopwords=blacklist,
+        stopwords=stopwords,
         max_words=500,
         background_color="white",
-        colormap="Dark2"
+        colormap="Dark2",
+        regexp=r"\w[\w-][\w'’-]+"
     )
     wordcloud = wordcloud.generate(str)
     plt.imshow(wordcloud, interpolation='bilinear', aspect='auto')
