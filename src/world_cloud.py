@@ -20,7 +20,10 @@ def world_cloud(str):
         "ce", "cet", "cette", "ces", "mais", "ou", "et", "donc",
         "que", "quoi", "qui", "où",
         "en", "dans", "pour", "par", "à",
-        "est", "a", "fait"
+        "est", "a", "fait",
+        "si", "dont", "sont", "aussi", "chaque", "sa", "est-il",
+        "ni", "ans", "pris", "falloir", "être", "autre", "autres",
+        "l'un", "l'une", "veux", "veut", "même"
     ]
 
     str = str.replace("-", "_")
