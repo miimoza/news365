@@ -11,6 +11,8 @@ matplotlib = "*"
 requests = "*"
 bs4 = "*"
 unidecode = "*"
+pillow = "*"
+numpy = "*"
 
 [requires]
 python_version = "3.8"

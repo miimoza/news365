@@ -1,10 +1,13 @@
-import world_cloud
 import api
+import regions
+import world_cloud
 
 def main():
+    region="ile-de-france"
+    
     world_cloud.world_cloud(
-        api.getToday("ile-de-france")[1] +
-        api.getToday("auvergne-rhone-alpes")[1]
+        api.getToday(region)[1],
+        regions.getMask(region)
     )
 
 if __name__ == "__main__":

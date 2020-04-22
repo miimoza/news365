@@ -2,7 +2,7 @@ from stopwords import *
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 
-def world_cloud(str):
+def world_cloud(str, mask):
 
     if type(str) is list:
         str = " ".join(str)
@@ -12,19 +12,29 @@ def world_cloud(str):
         str = str.replace(e, "")
 
     str = str.split(" ");
-    str[:] = [word.capitalize() for word in str]
+    str[:] = [word.title() for word in str]
     str = " ".join(str)
+    str = uncap_cities(str)
 
     wordcloud = WordCloud(
-        width=1920,
-        height=1080,
+        width=1000,
+        height=1000,
         stopwords=stopwords,
-        max_words=500,
+        max_words=100,
+        mask=mask,
+        contour_width=1,
+        contour_color="silver",
         background_color="white",
         colormap="Dark2",
         regexp=r"\w[\w-][\w'’-]+"
     )
+
     wordcloud = wordcloud.generate(str)
-    plt.imshow(wordcloud, interpolation='bilinear', aspect='auto')
+    plt.imshow(wordcloud, interpolation='bilinear')
     plt.axis("off")
-    plt.show()
+    plt.savefig("output.png",
+        format="png",
+        dpi=250,
+        bbox_inches='tight'
+    )
+    #plt.show()
