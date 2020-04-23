@@ -2,15 +2,16 @@ stopwords = ["a", "abord", "absolument", "afin", "ah", "ai", "aie", "aient", "ai
 
 def uncap_cities(str):
     str = str.replace("-D'",    "-d'")
-    str = str.replace("-Du-",   "-du-")
     str = str.replace("-De-",   "-de-")
     str = str.replace("-Des-",  "-des-")
+    str = str.replace("-Du-",   "-du-")
+    str = str.replace("-En-",   "-en-")
+    str = str.replace("-Et-",   "-et-")
     str = str.replace("-L'",    "-l'")
     str = str.replace("-La-",   "-la-")
     str = str.replace("-Le-",   "-le-")
     str = str.replace("-Les-",  "-les-")
-    str = str.replace("-Sur-",  "-sur-")
+    str = str.replace("-Lès-",  "-lès-")
     str = str.replace("-Sous-", "-sous-")
-    str = str.replace("-Et-",   "-et-")
-    str = str.replace("-En-",   "-en-")
+    str = str.replace("-Sur-",  "-sur-")
     return str
