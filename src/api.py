@@ -24,7 +24,7 @@ def getToday(region, departement = "", city = ""):
     d0 = datetime.strptime(dates_bs[0].text, '%H:%M')
     while (i < len(posts_bs) and datetime.strptime(dates_bs[i].text, '%H:%M') <= d0):
         dates.append(dates_bs[i].text)
-        posts.append(unidecode.unidecode(posts_bs[i]['title']).lower())
+        posts.append(posts_bs[i]['title'])
         i+=1
 
     return (dates, posts)
@@ -81,6 +81,7 @@ def idf():
                 autres = {"noyade":0, "meutre":0, "incendie":0}
                 dates, posts = getToday("ile-de-france", departement[0], district);
                 for date, post in zip(dates, posts):
+                    post = unidecode.unidecode(post).lower()
                     emeute = occ_update(emeute, post)
                     covid = occ_update(covid, post)
                     autres = occ_update(autres, post)
