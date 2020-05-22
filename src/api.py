@@ -88,5 +88,3 @@ def idf():
                 occ_dump(emeute, "emeute");
                 occ_dump(covid, "covid");
                 occ_dump(autres, "autres");
-
-#idf()
