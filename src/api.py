@@ -65,7 +65,7 @@ def idf():
         district_95="argenteuil","sarcelles","cergy","garges-les-gonesse", \
                     "franconville","pontoise"
 
-        idf = {("paris", 75): "", ("hauts-de-seine",92): district_92,\
+        idf = {("paris",75): district_75, ("hauts-de-seine",92): district_92,\
               ("seine-saint-denis",93): district_93,\
               ("val-de-marne", 94): district_94,\
               ("seine-et-marne",77):district_77, ("yvelines", 78):district_78,\

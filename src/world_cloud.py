@@ -20,7 +20,7 @@ def world_cloud(str, mask):
         width=1000,
         height=1000,
         stopwords=stopwords,
-        max_words=100,
+        max_words=10000,
         mask=mask,
         contour_width=1,
         contour_color="silver",
@@ -32,6 +32,7 @@ def world_cloud(str, mask):
     wordcloud = wordcloud.generate(str)
     plt.imshow(wordcloud, interpolation='bilinear')
     plt.axis("off")
+    print("generating output.png")
     plt.savefig("output.png",
         format="png",
         dpi=250,

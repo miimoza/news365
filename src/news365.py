@@ -9,7 +9,8 @@ def main():
         api.getToday(region)[1],
         regions.getMask(region)
     )
-    api.idf()
+
+    #api.idf()
 
 if __name__ == "__main__":
     main()
