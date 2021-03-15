@@ -21,9 +21,18 @@ def getToday(region, departement = "", city = ""):
 
     posts, dates = [], []
     i = 0;
-    d0 = datetime.strptime(dates_bs[0].text, '%H:%M')
-    while (i < len(posts_bs) and datetime.strptime(dates_bs[i].text, '%H:%M') <= d0):
-        dates.append(dates_bs[i].text)
+    
+    # NEED TO FIX res["dates"]
+
+    #print(res["posts"][2]['title']) 
+    #d0 = datetime.strptime(dates_bs[0].text, '%H:%M')
+    #while (i < len(posts_bs) and datetime.strptime(dates_bs[i].text, '%H:%M') <= d0):
+    #    dates.append(dates_bs[i].text)
+    #    posts.append(posts_bs[i]['title'])
+    #    i+=1
+
+    while i < len(posts_bs):
+        dates.append("NO DATE")
         posts.append(posts_bs[i]['title'])
         i+=1
 
