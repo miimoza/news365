@@ -2,7 +2,7 @@ from stopwords import *
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 
-def world_cloud(str, mask):
+def world_cloud(str, mask, output_file):
 
     if type(str) is list:
         str = " ".join(str)
@@ -32,8 +32,8 @@ def world_cloud(str, mask):
     wordcloud = wordcloud.generate(str)
     plt.imshow(wordcloud, interpolation='bilinear')
     plt.axis("off")
-    print("generating output.png")
-    plt.savefig("output.png",
+    print("generating", output_file,"...")
+    plt.savefig(output_file,
         format="png",
         dpi=250,
         bbox_inches='tight'
